@@ -1,0 +1,14 @@
+query charactersByIds($ids: [ID!]!) {
+    charactersByIds (
+        ids: $ids){
+    		name
+      	status
+        species
+        gender
+        image
+        episode {
+            episode
+                }
+        }
+    }
+        

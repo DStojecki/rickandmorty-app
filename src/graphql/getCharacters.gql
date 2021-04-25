@@ -1,0 +1,25 @@
+query characters($name: String!) {
+    characters (
+        page: 1,
+        filter: {name: $name}
+    ){
+
+    info{
+        pages
+        next
+        count
+    }
+
+    results {
+        id
+        name
+        status
+        species
+        gender
+        image
+        episode {
+            episode
+                }
+            }
+        }
+    }
