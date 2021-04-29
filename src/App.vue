@@ -10,7 +10,19 @@
 import Home from "./views/Home"
 
 export default {
-    components: { Home }
+    components: { Home },
+
+    created() {
+        const item = localStorage.getItem("favouriteCharacters")
+
+        switch (item) {
+            case null:
+                localStorage.setItem("favouriteCharacters", "[]")
+
+            default: 
+                return
+        }
+    }
 }
 </script>
 

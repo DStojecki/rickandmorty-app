@@ -6,7 +6,7 @@
         <li>{{character.gender}}</li>
         <li>{{character.species}}</li>
         <li>{{character.episode[character.episode.length - 1].episode}}</li>
-        <li><svg-icon width="54px" height="54px" class="ico" type="mdi" :path="path"></svg-icon></li>
+        <li @click="addToFavourite"><svg-icon width="40px" height="40px" class="ico" type="mdi" :path="path"></svg-icon></li>
     </ul>
 </template>
 
@@ -19,7 +19,8 @@ import { mdiStarBox } from '@mdi/js';
 export default {
     data() {
         return {
-            path: mdiStarBox
+            path: mdiStarBox,
+            isCharacterAlreadyOnList: false
         }
     },
 
@@ -28,6 +29,24 @@ export default {
     },
 
     props: ["character", "index"],
+
+    methods: {
+        addToFavourite() {
+            const favouriteCharacters = JSON.parse(window.localStorage.getItem("favouriteCharacters"))
+
+            for(let i = 0; i < favouriteCharacters.length; i++) {
+                if(favouriteCharacters[i] === this.character.id) {
+                    return this.isCharacterAlreadyOnList = true
+                }
+            }
+
+            if(!this.isCharacterAlreadyOnList) {
+                favouriteCharacters.push(this.character.id)
+            }
+            
+            window.localStorage.setItem('favouriteCharacters', JSON.stringify(favouriteCharacters))
+        }
+    },
 }
 </script>
 
@@ -53,7 +72,6 @@ export default {
                 }
                 .ico {
                     color: #11B0C8;
-                    height: 40px;
                     cursor: pointer;
                 }
             }

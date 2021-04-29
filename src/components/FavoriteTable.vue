@@ -10,7 +10,7 @@
             <li>Add To Favorites</li>
         </ul>
 
-
+        
         <ApolloQuery class="characters" :query="require('../graphql/getFavouriteCharacters.gql')" :variables="{ids: ids}">
             <template v-slot="{ result: { loading, error, data } }">
                 <div v-if="loading" class="loading apollo">Loading...</div>
@@ -36,12 +36,17 @@ import Character from './Character'
 export default {
     data() {
         return {
-            ids: [1, 2]
+            ids: []
         }
     },
+
     components: {
         Character,
     },
+
+    created() {
+        this.ids = JSON.parse(localStorage.getItem("favouriteCharacters"))
+    }
     
 }
 </script>
