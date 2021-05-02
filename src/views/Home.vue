@@ -2,8 +2,8 @@
   <div class="home">
     <Header />
     <nav>
-        <router-link class="active" :to="{name: 'Table'}">All Characters</router-link>
-        <router-link :to="{name: 'FavoriteTable'}">Favorites</router-link>
+        <router-link :class="{active: !favouriteTable}" :to="{name: 'Table'}">All Characters</router-link>
+        <router-link :class="{active: favouriteTable}" :to="{name: 'FavoriteTable'}">Favorites</router-link>
     </nav>
     <main>
         <router-view />
@@ -16,14 +16,19 @@
 
 import Header from '@/components/Header.vue'
 import Pagination from '@/components/Pagination.vue'
+import {mapState} from 'vuex'
 
 export default  {
-  name: 'Home',
-  components: {
-    Header,
-    Pagination,
-    
-  }
+    name: 'Home',
+
+    computed: {
+        ...mapState(["favouriteTable"]),
+    },
+
+    components: {
+        Header,
+        Pagination,
+    }
 }
 </script>
 

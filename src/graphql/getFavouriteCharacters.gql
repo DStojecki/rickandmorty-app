@@ -1,7 +1,8 @@
 query charactersByIds($ids: [ID!]!) {
     charactersByIds (
         ids: $ids){
-    		name
+        id
+    	name
       	status
         species
         gender

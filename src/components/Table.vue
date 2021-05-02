@@ -48,7 +48,7 @@ export default {
     },
 
     computed: {
-        ...mapState(["isSearching", "inputedName"]),
+        ...mapState(["isSearching", "inputedName", "favouriteTable"]),
 
         scrollHeight(){
             return document.querySelector(".characters").scrollHeight
@@ -122,7 +122,12 @@ export default {
                 this.moreResults()
             }
         });
+    },
+
+    beforeCreate() {
+        this.$store.commit("changeFavouriteTable", false)  
     }
+
 }
         
     
@@ -131,6 +136,9 @@ export default {
 
 
 <style lang="scss">
+
+    $padding-left: 120px;
+
     .table {
         width: 100%;
 
@@ -159,5 +167,10 @@ export default {
     .characters {
         height: 70vh;
         overflow-y: scroll;
+    }
+
+    .result-apollo {
+        max-height: auto;
+        transition: max-height 0.5s;
     }
 </style>

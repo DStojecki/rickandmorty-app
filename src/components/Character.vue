@@ -6,12 +6,19 @@
         <li>{{character.gender}}</li>
         <li>{{character.species}}</li>
         <li>{{character.episode[character.episode.length - 1].episode}}</li>
-        <li @click="addToFavourite"><svg-icon width="40px" height="40px" class="ico" type="mdi" :path="path"></svg-icon></li>
+        <li v-if="isFavourite" @click="removeFromFavourites" class="golden"><svg-icon width="40px" height="40px" class="ico" type="mdi" :path="path"></svg-icon></li>
+        
+        <li v-else @click="addToFavourite"><svg-icon width="40px" height="40px" class="ico" type="mdi" :path="path"></svg-icon></li>
+        <transition name="show-alert">
+            <li v-if="showAlert" class="alert"><h1>Character added to favourites</h1></li>
+        </transition>
     </ul>
 </template>
 
 
 <script>
+
+import { mapState } from 'vuex'
 
 import SvgIcon from '@jamescoyle/vue-icon'
 import { mdiStarBox } from '@mdi/js'; 
@@ -20,7 +27,8 @@ export default {
     data() {
         return {
             path: mdiStarBox,
-            isCharacterAlreadyOnList: false
+            isFavourite: false,
+            showAlert: false,
         }
     },
 
@@ -28,10 +36,16 @@ export default {
         SvgIcon,
     },
 
+    computed: {
+        ...mapState(["favouriteTable"]),
+    },
+
     props: ["character", "index"],
 
     methods: {
         addToFavourite() {
+            this.setAlertAnimation()
+
             const favouriteCharacters = JSON.parse(window.localStorage.getItem("favouriteCharacters"))
 
             for(let i = 0; i < favouriteCharacters.length; i++) {
@@ -44,9 +58,46 @@ export default {
                 favouriteCharacters.push(this.character.id)
             }
             
+            this.isFavourite = true
+            
             window.localStorage.setItem('favouriteCharacters', JSON.stringify(favouriteCharacters))
-        }
+            
+        },
+
+        removeFromFavourites() {
+            const favouriteCharacters = JSON.parse(window.localStorage.getItem("favouriteCharacters"))
+
+            for(let i = 0; i < favouriteCharacters.length; i++) {
+                if(favouriteCharacters[i] === this.character.id) {
+                    favouriteCharacters.splice(i, 1)
+
+                    window.localStorage.setItem('favouriteCharacters', JSON.stringify(favouriteCharacters))
+                    this.$emit("forceUpdate")
+                }
+            }
+        },
+
+        setAlertAnimation() {
+            this.showAlert = true
+
+            setTimeout(() => {
+                this.showAlert = false
+            }, 1500)
+        },
+
+        checkIfIsFavourite() {
+            const favouriteCharacters = JSON.parse(window.localStorage.getItem("favouriteCharacters"))
+            for(let i = 0; i < favouriteCharacters.length; i++) {
+                if(favouriteCharacters[i] === this.character.id) {
+                    this.isFavourite = true
+                }
+            }
+        },
     },
+
+    mounted() {
+        this.checkIfIsFavourite()
+    }
 }
 </script>
 
@@ -54,6 +105,7 @@ export default {
 <style lang="scss" scoped>
     .table {
         .character {
+            height: 80px;
             display: flex;
             align-items: center;
             background-color: #ffffff;
@@ -61,6 +113,8 @@ export default {
             padding-top: 0px;
             padding-bottom: 0px;
             max-height: 80px;
+            position: relative;
+            overflow: hidden;
 
             li {
                 display: flex;
@@ -78,6 +132,55 @@ export default {
 
 
         }
+    }
+
+    .favourites {
+        li {
+            .ico {
+                    color: lightgrey !important;
+                    cursor: pointer;
+                }
+        }
+    }
+
+    .golden {
+        .ico {
+            color: goldenrod !important;
+        }
+    }
+    .alert {
+        width: calc(100% + 120px);
+        height: 100%;
+        background-color: rgba(17, 176, 200, .8);
+        position: absolute;
+        left: calc(0% - 120px);
+            h1 {
+                width: 100%;
+                height: 100%;
+                color: white;
+                font-size: 32px;
+                text-align: center;
+                line-height: 68px;
+            }
+    }
+
+
+    .show-alert-enter-active {
+        transition: left .6s;
+        left: calc(0% - 120px);
+    }
+
+    .show-alert-enter {
+        left: 100%
+    }
+
+    .show-alert-leave-active {
+        transition: left .6s;
+        left: calc(-100% - 120px)
+    }
+
+    .show-alert-leave {
+        left: calc(0% - 120px);
     }
 
 </style>

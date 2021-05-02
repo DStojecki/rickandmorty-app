@@ -7,9 +7,8 @@
             <li>Gender</li>
             <li>Spiecies</li>
             <li>Last Episode</li>
-            <li>Add To Favorites</li>
+            <li>Remove</li>
         </ul>
-
         
         <ApolloQuery class="characters" :query="require('../graphql/getFavouriteCharacters.gql')" :variables="{ids: ids}">
             <template v-slot="{ result: { loading, error, data } }">
@@ -19,7 +18,7 @@
 
                 <div v-else-if="data" class="result apollo">
                     <div>
-                        <Character v-for="(character, index) in data.charactersByIds" :index="index" :key="character.id" :character="data.charactersByIds[index]"/>
+                        <Character @forceUpdate="downloadNewIds" class="favourites" v-for="(character, index) in data.charactersByIds" :index="index" :key="character.id" :character="data.charactersByIds[index]"/>
                     </div>
                 </div>
 
@@ -32,6 +31,7 @@
 
 <script>
 import Character from './Character'
+import { mapState } from 'vuex'
 
 export default {
     data() {
@@ -44,9 +44,24 @@ export default {
         Character,
     },
 
+    computed: {
+        ...mapState(["favouriteTable"]),
+    },
+
+    methods: {
+        downloadNewIds() {
+            this.ids = JSON.parse(localStorage.getItem("favouriteCharacters"))
+        }
+    },
+    
+    beforeCreate() {
+        this.$store.commit("changeFavouriteTable", true)  
+    },
+
     created() {
         this.ids = JSON.parse(localStorage.getItem("favouriteCharacters"))
-    }
+    },
+
     
 }
 </script>

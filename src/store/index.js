@@ -6,9 +6,14 @@ Vue.use(Vuex)
 export default new Vuex.Store({
   state: {
       isSearching: false,
-      inputedName: ""
+      inputedName: "",
+      favouriteTable: false,
   },
   mutations: {
+      changeFavouriteTable(state, payload) {
+          state.favouriteTable = payload
+      },
+
       changeIsSearching(state, payload)  {
           state.isSearching = payload
       },
