@@ -26,8 +26,7 @@
                 <div v-else class="no-result apollo">No result</div>
             </template>
         </ApolloQuery>
-        
-        <button @click="moreResults">more</button>
+
     </div>
 </template>
 
