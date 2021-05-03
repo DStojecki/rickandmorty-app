@@ -122,17 +122,14 @@ export default {
                 this.moreResults()
             }
         });
+
+        this.$store.commit("changeInputedName", "")
+        document.getElementById("search").value = ""
     },
 
     beforeCreate() {
         this.$store.commit("changeFavouriteTable", false) 
     },
-
-    mounted() {
-        this.$store.commit("changeInputedName", "")
-        document.getElementById("search").value = ""
-    }
-
 }
         
     
