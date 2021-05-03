@@ -8,14 +8,14 @@
     <main>
         <router-view />
     </main>
-    <Pagination />
+    <Footer />
   </div>
 </template>
 
 <script>
 
 import Header from '@/components/Header.vue'
-import Pagination from '@/components/Pagination.vue'
+import Footer from '@/components/Footer.vue'
 import {mapState} from 'vuex'
 
 export default  {
@@ -27,7 +27,7 @@ export default  {
 
     components: {
         Header,
-        Pagination,
+        Footer,
     }
 }
 </script>
