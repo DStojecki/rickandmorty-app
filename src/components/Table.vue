@@ -7,7 +7,7 @@
             <li>Gender</li>
             <li>Spiecies</li>
             <li>Last Episode</li>
-            <li>Add To Favorites</li>
+            <li>Add To Favourites</li>
         </ul>
 
 

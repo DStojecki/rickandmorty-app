@@ -17,9 +17,7 @@
                 <div v-else-if="error" class="error apollo">No characters matching search.</div>
 
                 <div v-else-if="data" class="result apollo">
-                    <div>
-                        <Character @forceUpdate="downloadNewIds" class="favourites" v-for="(character, index) in data.charactersByIds" :index="index" :key="character.id" :character="data.charactersByIds[index]"/>
-                    </div>
+                    <Character @forceUpdate="downloadNewIds" class="favourites" v-for="(character, index) in data.charactersByIds.filter((character) => {return character.name.toLowerCase().match(inputedName.toLowerCase())})" :index="index" :key="character.id" :character="character"/>
                 </div>
 
                 <div v-else class="no-result apollo">No result</div>
@@ -32,6 +30,7 @@
 <script>
 import Character from './Character'
 import { mapState } from 'vuex'
+import gql from 'graphql-tag'
 
 export default {
     data() {
@@ -45,12 +44,13 @@ export default {
     },
 
     computed: {
-        ...mapState(["favouriteTable"]),
+        ...mapState(["favouriteTable", "inputedName"]),
     },
 
     methods: {
         downloadNewIds() {
             this.ids = JSON.parse(localStorage.getItem("favouriteCharacters"))
+            this.$forceUpdate()
         }
     },
     
@@ -60,8 +60,32 @@ export default {
 
     created() {
         this.ids = JSON.parse(localStorage.getItem("favouriteCharacters"))
-    },
+        this.$forceUpdate()
+    }, 
 
-    
+    apollo: {
+        charactersByIds: {
+            query: gql`
+                query charactersByIds($ids: [ID!]!) {
+                    charactersByIds (
+                        ids: $ids){
+                        id
+                        name
+                        status
+                        species
+                        gender
+                        image
+                        episode {
+                            episode
+                                }
+                        }
+                    }
+            `,
+
+            variables: {
+                ids: JSON.parse(localStorage.getItem("favouriteCharacters")),
+            },
+        }  
+    },
 }
 </script>
