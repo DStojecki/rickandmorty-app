@@ -125,7 +125,12 @@ export default {
     },
 
     beforeCreate() {
-        this.$store.commit("changeFavouriteTable", false)  
+        this.$store.commit("changeFavouriteTable", false) 
+    },
+
+    mounted() {
+        this.$store.commit("changeInputedName", "")
+        document.getElementById("search").value = ""
     }
 
 }

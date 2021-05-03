@@ -3,7 +3,7 @@
         <div class="header-content">
             <div class="logo"><img src="logo.png" alt="Rick and Morty Logo"></div>
             <div class="input-wrapper">
-                <input placeholder="Start typing to search..." type="text" v-model="name">
+                <input id="search" placeholder="Start typing to search..." type="text" v-model="name">
                 <svg-icon type="mdi" :path="path"></svg-icon>
             </div>
         </div>

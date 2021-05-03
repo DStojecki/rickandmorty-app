@@ -50,7 +50,6 @@ export default {
     methods: {
         downloadNewIds() {
             this.ids = JSON.parse(localStorage.getItem("favouriteCharacters"))
-            this.$forceUpdate()
         }
     },
     
@@ -60,32 +59,11 @@ export default {
 
     created() {
         this.ids = JSON.parse(localStorage.getItem("favouriteCharacters"))
-        this.$forceUpdate()
     }, 
 
-    apollo: {
-        charactersByIds: {
-            query: gql`
-                query charactersByIds($ids: [ID!]!) {
-                    charactersByIds (
-                        ids: $ids){
-                        id
-                        name
-                        status
-                        species
-                        gender
-                        image
-                        episode {
-                            episode
-                                }
-                        }
-                    }
-            `,
-
-            variables: {
-                ids: JSON.parse(localStorage.getItem("favouriteCharacters")),
-            },
-        }  
+    mounted() {
+        this.$store.commit("changeInputedName", "")
+        document.getElementById("search").value = ""
     },
 }
 </script>
