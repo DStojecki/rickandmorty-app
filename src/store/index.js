@@ -8,8 +8,13 @@ export default new Vuex.Store({
       isSearching: false,
       inputedName: "",
       favouriteTable: false,
+      page: 1,
   },
   mutations: {
+      changePage(state, payload) {
+          state.page = payload
+      },
+
       changeFavouriteTable(state, payload) {
           state.favouriteTable = payload
       },

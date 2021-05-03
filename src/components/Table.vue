@@ -41,14 +41,13 @@ export default {
 
     data() {
         return {
-            page: 1,
             showMoreEnabled: true,
             characterHeight: 84,
         }
     },
 
     computed: {
-        ...mapState(["isSearching", "inputedName", "favouriteTable"]),
+        ...mapState(["isSearching", "inputedName", "favouriteTable", "page"]),
 
         scrollHeight(){
             return document.querySelector(".characters").scrollHeight
@@ -95,7 +94,8 @@ export default {
 
     methods: {
         moreResults() {
-            this.page++
+            this.$store.commit("changePage", this.page + 1)
+
             this.$apollo.queries.characters.fetchMore({
                 variables: {
                     page: this.page,
