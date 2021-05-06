@@ -17,7 +17,7 @@
                 <div v-else-if="error" class="error apollo">No characters matching search.</div>
 
                 <div v-else-if="data" class="result apollo">
-                    <Character @forceUpdate="downloadNewIds" class="favourites" v-for="(character, index) in data.charactersByIds.filter((character) => {return character.name.toLowerCase().match(inputedName.toLowerCase())})" :index="index" :key="character.id" :character="character"/>
+                    <Character @forceUpdate="downloadNewIds" class="favourites" v-for="(character, index) in data.charactersByIds.filter((character) => { return character.name.toLowerCase().match(inputedName.toLowerCase()) })" :index="index" :key="character.id" :character="character"/>
                 </div>
 
                 <div v-else class="no-result apollo">No result</div>
@@ -30,7 +30,6 @@
 <script>
 import Character from './Character'
 import { mapState } from 'vuex'
-import gql from 'graphql-tag'
 
 export default {
     data() {

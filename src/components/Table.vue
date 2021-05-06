@@ -22,7 +22,6 @@
                         <Character v-for="(character, index) in characters.results" :index="index" :key="character.id" :character="data.characters.results[index]"/>
                     </div>
                 </div>
-
                 <div v-else class="no-result apollo">No result</div>
             </template>
         </ApolloQuery>
@@ -41,7 +40,6 @@ export default {
     data() {
         return {
             showMoreEnabled: true,
-            characterHeight: 84,
         }
     },
 
@@ -168,8 +166,33 @@ export default {
     .characters {
         height: 70vh;
         overflow-y: scroll;
+        border-bottom: 40px solid rgba(229, 234, 244, 0.25);
+        
     }
 
+    .characters::-webkit-scrollbar {
+        width: 8px;
+        border-radius: 4px
+    }
+
+    /* Track */
+    .characters::-webkit-scrollbar-track {
+        background: #f1f1f1;
+        border-radius: 10px;
+    }
+
+    /* Handle */
+    .characters::-webkit-scrollbar-thumb {
+        background: #11B0C8;
+        border-radius: 10px;
+        height: 50px;
+    }
+
+    /* Handle on hover */
+    .characters::-webkit-scrollbar-thumb:hover {
+        background: #11B0C8;;
+    }
+    
     .result-apollo {
         max-height: auto;
         transition: max-height 0.5s;
