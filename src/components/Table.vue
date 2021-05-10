@@ -44,11 +44,11 @@ export default {
     },
 
     computed: {
-        ...mapState(["isSearching", "inputedName", "favouriteTable", "page"]),
+        ...mapState(["isSearching", "inputedName", "favouriteTable", "page", "tableHeight"]),
 
         scrollHeight(){
             return document.querySelector(".characters").scrollHeight
-        }
+        },
     },
 
     components: {
@@ -112,7 +112,9 @@ export default {
     },
 
     mounted() {
+        // Scroll listener set 
         const table = document.querySelector(".characters")
+        console.log(table.clientHeight)
         table.addEventListener('scroll', () => {
             
             if (table.scrollHeight - table.scrollTop === table.clientHeight) {
@@ -120,8 +122,16 @@ export default {
             }
         });
 
+        // Clearing search input
         this.$store.commit("changeInputedName", "")
         document.getElementById("search").value = ""
+
+        // Setting Table height
+        setTimeout(() => {
+            table.style.height = this.tableHeight + "px"
+            table.style.maxHeight = this.tableHeight + "px"
+        },100)
+        
     },
 
     beforeCreate() {
@@ -135,8 +145,6 @@ export default {
 
 
 <style lang="scss">
-
-    $padding-left: 120px;
 
     .table {
         width: 100%;
@@ -164,9 +172,12 @@ export default {
         }
     }
     .characters {
-        height: 70vh;
+        min-height: 50vh;
+        max-height: 65vh;
         overflow-y: scroll;
-        border-bottom: 40px solid rgba(229, 234, 244, 0.25);
+        border-bottom: 0px solid rgba(229, 234, 244, 0.25);
+        scrollbar-color: #11B0C8 #f1f1f1;
+        scrollbar-width: thin;
         
     }
 

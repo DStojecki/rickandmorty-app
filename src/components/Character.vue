@@ -7,8 +7,8 @@
         <li>{{character.species}}</li>
         <li>{{character.episode[character.episode.length - 1].episode}}</li>
         <li v-if="isFavourite" @click="removeFromFavourites" class="golden"><svg-icon width="40px" height="40px" class="ico" type="mdi" :path="path"></svg-icon></li>
-        
         <li v-else @click="addToFavourite"><svg-icon width="40px" height="40px" class="ico" type="mdi" :path="path"></svg-icon></li>
+
         <transition name="show-alert">
             <li v-if="showAlert" class="alert"><h1>Character added to favourites</h1></li>
         </transition>
@@ -65,16 +65,21 @@ export default {
         },
 
         removeFromFavourites() {
-            const favouriteCharacters = JSON.parse(window.localStorage.getItem("favouriteCharacters"))
+            this.$el.style.height = 0 + "px";
+            
+            setTimeout(() => {
+                const favouriteCharacters = JSON.parse(window.localStorage.getItem("favouriteCharacters"))
 
-            for(let i = 0; i < favouriteCharacters.length; i++) {
-                if(favouriteCharacters[i] === this.character.id) {
-                    favouriteCharacters.splice(i, 1)
+                for(let i = 0; i < favouriteCharacters.length; i++) {
+                    if(favouriteCharacters[i] === this.character.id) {
+                        favouriteCharacters.splice(i, 1)
 
-                    window.localStorage.setItem('favouriteCharacters', JSON.stringify(favouriteCharacters))
-                    this.$emit("forceUpdate")
+                        window.localStorage.setItem('favouriteCharacters', JSON.stringify(favouriteCharacters))
+                        this.$emit("forceUpdate")
+                    }
                 }
-            }
+            }, 100)
+            
         },
 
         setAlertAnimation() {
@@ -105,6 +110,7 @@ export default {
 <style lang="scss" scoped>
     .table {
         .character {
+            transition: 0.3s;
             height: 80px;
             display: flex;
             align-items: center;
@@ -121,8 +127,8 @@ export default {
                 padding: 4px 0px;
 
                 img {
-                    width: 50px;
-                    height: 70px;
+                    width: 52px;
+                    height: 72px;
                 }
                 .ico {
                     color: #11B0C8;

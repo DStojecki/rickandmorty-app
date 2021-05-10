@@ -9,8 +9,13 @@ export default new Vuex.Store({
       inputedName: "",
       favouriteTable: false,
       page: 1,
+      tableHeight: 0,
   },
   mutations: {
+      changeTableHeight(state, payload) {
+          state.tableHeight = payload
+      },
+
       changePage(state, payload) {
           state.page = payload
       },

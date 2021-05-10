@@ -43,7 +43,7 @@ export default {
     },
 
     computed: {
-        ...mapState(["favouriteTable", "inputedName"]),
+        ...mapState(["favouriteTable", "inputedName", "tableHeight", ]),
     },
 
     methods: {
@@ -63,6 +63,13 @@ export default {
     mounted() {
         this.$store.commit("changeInputedName", "")
         document.getElementById("search").value = ""
+
+
+        const table = document.querySelector(".characters")
+        setTimeout(() => {
+            table.style.height = this.tableHeight + "px"
+            table.style.maxHeight = this.tableHeight + "px"
+        },100)
     },
 }
 </script>

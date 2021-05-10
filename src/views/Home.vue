@@ -23,21 +23,47 @@ export default  {
 
     computed: {
         ...mapState(["favouriteTable"]),
+
+        headerHeight() {
+            return document.querySelector("header").offsetHeight
+        },
+
+        navHeight() {
+            return document.querySelector("nav").offsetHeight
+        },
+
+        tableHeaderHeight() {
+            return document.querySelector("ul").offsetHeight
+        },
+
+        footerHeight() {
+            return document.querySelector("footer").offsetHeight
+        }
     },
 
     components: {
         Header,
         Footer,
-    }
+    },
+    mounted() {
+        // Setting table height 
+        const table = document.querySelector(".characters")
+        const tableHeight = window.innerHeight - this.headerHeight - this.footerHeight - this.navHeight - this.tableHeaderHeight - 30
+        this.$store.commit("changeTableHeight", tableHeight)
+
+        table.style.height = this.tableHeight + "px"
+        table.style.maxHeight = this.tableHeight + "px"
+    },
 }
 </script>
 
 
-<style lang="scss" scoped>
+<style lang="scss">
     nav {
         margin: 0px 120px;
         text-align: left;
-        padding: 20px 0px;
+        padding: 20px 0px 0px;
+        height: 70px;
 
         a {
             margin-right: 80px;
@@ -51,6 +77,33 @@ export default  {
                 color: #11B0C8;
             }
         }
-        
+    }
+
+    .home {
+        justify-content: flex-start;
+        flex-wrap: wrap;
+        max-width: 100vw;
+        max-height: 100vh;
+        width:100vw;
+        height: 100vh;
+
+        header {
+            max-width: 100%;
+            width:100%;
+        }
+
+        main {
+            max-width: 100%;
+            width:100%;
+        }
+
+        footer {
+            position:absolute;
+            bottom: 0;
+            left: 0;
+            width:100%;
+            max-width: 100%;
+            align-self: flex-end;
+        }
     }
 </style>
