@@ -7,7 +7,7 @@
 
 <style lang="scss" scoped>
     footer {
-        background-color: rgba(17, 176, 200, 0.9);
+        background-color: rgb(17, 176, 200,);
         color: #ffffff;
         height: 45px;
         padding-top: 10px;

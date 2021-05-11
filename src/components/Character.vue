@@ -65,21 +65,22 @@ export default {
         },
 
         removeFromFavourites() {
-            this.$el.style.height = 0 + "px";
-            
-            setTimeout(() => {
-                const favouriteCharacters = JSON.parse(window.localStorage.getItem("favouriteCharacters"))
+            if(this.favouriteTable) {
+                this.$el.style.height = 0 + "px";
+                
+                setTimeout(() => {
+                    const favouriteCharacters = JSON.parse(window.localStorage.getItem("favouriteCharacters"))
 
-                for(let i = 0; i < favouriteCharacters.length; i++) {
-                    if(favouriteCharacters[i] === this.character.id) {
-                        favouriteCharacters.splice(i, 1)
+                    for(let i = 0; i < favouriteCharacters.length; i++) {
+                        if(favouriteCharacters[i] === this.character.id) {
+                            favouriteCharacters.splice(i, 1)
 
-                        window.localStorage.setItem('favouriteCharacters', JSON.stringify(favouriteCharacters))
-                        this.$emit("forceUpdate")
+                            window.localStorage.setItem('favouriteCharacters', JSON.stringify(favouriteCharacters))
+                            this.$emit("forceUpdate")
+                        }
                     }
-                }
-            }, 100)
-            
+                }, 100)
+            }
         },
 
         setAlertAnimation() {
@@ -152,6 +153,7 @@ export default {
     .golden {
         .ico {
             color: goldenrod !important;
+            cursor: default !important;
         }
     }
     .alert {

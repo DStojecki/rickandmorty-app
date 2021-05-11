@@ -14,7 +14,7 @@
             <template v-slot="{ result: { loading, error, data } }">
                 <div v-if="loading" class="loading apollo">Loading...</div>
                 
-                <div v-else-if="error" class="error apollo">No characters matching search.</div>
+                <div v-else-if="error" class="error apollo">You have none favourite characters. Check all characters list to add one.</div>
 
                 <div v-else-if="data" class="result apollo">
                     <Character @forceUpdate="downloadNewIds" class="favourites" v-for="(character, index) in data.charactersByIds.filter((character) => { return character.name.toLowerCase().match(inputedName.toLowerCase()) })" :index="index" :key="character.id" :character="character"/>

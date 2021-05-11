@@ -114,7 +114,6 @@ export default {
     mounted() {
         // Scroll listener set 
         const table = document.querySelector(".characters")
-        console.log(table.clientHeight)
         table.addEventListener('scroll', () => {
             
             if (table.scrollHeight - table.scrollTop === table.clientHeight) {
@@ -207,5 +206,9 @@ export default {
     .result-apollo {
         max-height: auto;
         transition: max-height 0.5s;
+    }
+
+    .error, .no-result {
+        margin-top: 30px;
     }
 </style>
