@@ -1,11 +1,11 @@
 <template>
     <ul v-if="character" class="character">
         <li><img :src="character.image" alt=""></li>
-        <li>{{character.id}}</li>
+        <li class="mbl-hide">{{character.id}}</li>
         <li>{{character.name}}</li>
-        <li>{{character.gender}}</li>
+        <li class="mbl-hide">{{character.gender}}</li>
         <li>{{character.species}}</li>
-        <li>{{character.episode[character.episode.length - 1].episode}}</li>
+        <li class="mbl-hide">{{character.episode[character.episode.length - 1].episode}}</li>
         <li v-if="isFavourite" @click="removeFromFavourites" class="golden"><svg-icon width="40px" height="40px" class="ico" type="mdi" :path="path"></svg-icon></li>
         <li v-else @click="addToFavourite"><svg-icon width="40px" height="40px" class="ico" type="mdi" :path="path"></svg-icon></li>
 
@@ -125,7 +125,7 @@ export default {
 
             li {
                 display: flex;
-                padding: 4px 0px;
+                padding: 4px 5px 4px 0px; 
 
                 img {
                     width: 52px;
@@ -191,4 +191,9 @@ export default {
         left: calc(0% - 120px);
     }
 
+    @media(max-width: 790px) {
+        .mbl-hide {
+            display: none !important;
+        }
+    }
 </style>

@@ -87,7 +87,7 @@ export default {
         }
     }
 
-    @media(max-width: 1024px) {
+    @media(max-width: 1150px) {
         header {
             .header-content {
                 margin: 0px 60px;

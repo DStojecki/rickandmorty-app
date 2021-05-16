@@ -2,11 +2,11 @@
     <div class="table">
         <ul>
             <li>Photo</li>
-            <li>Character ID</li>
+            <li class="mbl-hide">Character ID</li>
             <li>Name</li>
-            <li>Gender</li>
+            <li class="mbl-hide">Gender</li>
             <li>Spiecies</li>
-            <li>Last Episode</li>
+            <li class="mbl-hide">Last Episode</li>
             <li>Add To Favourites</li>
         </ul>
 
@@ -19,13 +19,14 @@
 
                 <div v-else-if="data" class="result apollo">
                     <div v-if="characters">
-                        <Character v-for="(character, index) in characters.results" :index="index" :key="character.id" :character="data.characters.results[index]"/>
+                        <Character v-for="(character, index) in characters.results" :index="index" :key="character.id" :character="characters.results[index]"/>
                     </div>
                 </div>
                 <div v-else class="no-result apollo">No result</div>
             </template>
         </ApolloQuery>
 
+        
     </div>
 </template>
 
@@ -40,6 +41,7 @@ export default {
     data() {
         return {
             showMoreEnabled: true,
+            newCharacters: null,
         }
     },
 
@@ -55,13 +57,19 @@ export default {
         Character,
     },
 
+    watch: {
+        inputedName() {
+            
+        }
+    },
+
     apollo: {
         characters: {
             query: gql`
-                query characters($page: Int!) {
+                query characters($page: Int!, $name: String!) {
                     characters (
                         page: $page,
-                        filter: {name: ""}
+                        filter: {name: $name}
                     ){
 
                         info{
@@ -83,10 +91,12 @@ export default {
                     }
                 }`,
 
-            variables: {
-                page: 1,
-            },
-        }  
+            variables () {
+                return {
+                    page: 1,
+                    name: this.inputedName,
+                }}  
+            }
     },
 
     methods: {
@@ -96,9 +106,11 @@ export default {
             this.$apollo.queries.characters.fetchMore({
                 variables: {
                     page: this.page,
+                    name: this.inputedName,
                 },
                 updateQuery: (previousResult, { fetchMoreResult }) => {
                     const newCharacters = fetchMoreResult.characters.results
+                    this.newCharacters = fetchMoreResult.characters.results
 
                     return {
                         characters: {
@@ -157,6 +169,8 @@ export default {
             justify-content: flex-start;
 
             li {
+                padding: 0px 5px 0px 0px;
+                vertical-align: middle;
                 width: 16.6%;
                 text-align: left;
             }
@@ -210,5 +224,35 @@ export default {
 
     .error, .no-result {
         margin-top: 30px;
+    }
+
+    @media(max-width: 1150px) {
+        .table {
+            ul {
+                padding-left: 60px;
+                font-size: 14px;
+            }
+        }
+    }
+
+     @media(max-width: 790px) {
+         .table {
+            ul {
+                li {
+                    width: 25%;
+                }
+            }
+        }
+        .mbl-hide {
+            display: none;
+        }
+    }
+    @media(max-width: 500px) {
+        .table {
+            ul {
+                padding-left: 30px;
+                font-size: 14px;
+            }
+        }
     }
 </style>

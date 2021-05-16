@@ -92,7 +92,7 @@ export default  {
         }
     }
 
-     @media(max-width: 1024px) {
+     @media(max-width: 1150px) {
         nav {
             margin: 0px 60px;
         }
